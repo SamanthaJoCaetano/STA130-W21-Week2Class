@@ -1,0 +1,179 @@
+---
+title: 'STA130 Week 2 Class: Describing Distributions'
+author: "Nathalie Moon"
+date: "January 18, 2021"
+output:
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# Week 2 Class Meeting 
+```{r, include=FALSE}
+library(tidyverse) # What does library(tidyverse) do? -> allows us to access the functions we want!
+```
+
+
+
+# Exploration of coffee ratings data
+```{r}
+# Load data
+
+```
+
+```{r}
+# What are two useful functions to give us a quick look at the data?
+
+```
+
+```{r}
+# What kind of variable is species? 
+# What kind(s) of plot is appropriate to visualize the distribution of this variable? 
+# Let's visualize!
+
+# What are interesting features of this distribution?
+
+```
+
+```{r}
+# What kind of variable is country_of_origin? 
+# What kind(s) of plot is appropriate to visualize the distribution of this variable? 
+# Let's visualize!
+
+
+# What are some challenges with visualizing this distribution?
+```
+
+
+```{r}
+# What kind of variable is flavor? 
+# What kind(s) of plot is appropriate to visualize the distribution of this variable? 
+
+# Plot type 1:
+
+# Plot type 2:
+
+# Which plot do you find most useful to visualize this distribution?
+
+# What are interesting features of this distribution?
+
+```
+
+```{r}
+# What kind of variable is sweetness? 
+# What kind(s) of plot is appropriate to visualize the distribution of this variable? 
+
+# Plot type 1:
+
+# Plot type 2:
+
+# Which plot do you find most useful to visualize this distribution?
+
+# What are interesting features of this distribution?
+
+```
+
+
+
+
+
+
+
+\newpage
+### Code from Week 2 slides/videos
+
+```{r, include=TRUE, fig.width=5, fig.height=3}
+library(tidyverse) # Load the tidyverse package to gain access to functions we'll use
+# Load data from a csv file using read_csv 
+coffee_ratings <- read_csv("coffee_ratings.csv")
+glimpse(coffee_ratings)
+```
+
+
+
+
+```{r, include=TRUE, fig.width=5, fig.height=3}
+# Histogram of overall coffee ratings
+ggplot(data = coffee_ratings, aes(x = total_cup_points)) +
+  geom_histogram(color="black", 
+                 fill="gray", 
+                 bins=30) +
+  labs(x = "Overall coffee ratings")
+
+```
+
+```{r, fig.width=3, fig.height=4}
+## Different numbers of bins
+ggplot(data = coffee_ratings, aes(x = total_cup_points)) +
+  geom_histogram(color="black", 
+                 fill="gray", 
+                 bins=3) +
+  labs(x = "Overall coffee ratings")
+
+ggplot(data = coffee_ratings, aes(x = total_cup_points)) +
+  geom_histogram(color="black", 
+                 fill="gray", 
+                 bins=10) +
+  labs(x = "Overall coffee ratings")
+
+ggplot(data = coffee_ratings, aes(x = total_cup_points)) +
+  geom_histogram(color="black", 
+                 fill="gray", 
+                 bins=30) +
+  labs(x = "Overall coffee ratings")
+
+ggplot(data = coffee_ratings, aes(x = total_cup_points)) +
+  geom_histogram(color="black", 
+                 fill="gray", 
+                 bins=150) +
+  labs(x = "Overall coffee ratings")
+```
+
+```{r, include=TRUE, fig.width=5, fig.height=3}
+# Barplot of processing method
+ggplot(data = coffee_ratings, aes(x = processing_method)) +
+  geom_bar(color="black", fill="gray") +
+  labs(x = "Processing method")
+
+ggplot(data = coffee_ratings, aes(x = processing_method)) +
+  geom_bar(color="black", fill="gray") +
+  labs(x = "Processing method") +
+  coord_flip()
+```
+
+
+```{r, include=TRUE, fig.width=2.5, fig.height=3}
+# Boxplot of total_cup_points
+ggplot(data = coffee_ratings, aes(x = "", y=total_cup_points)) +
+  geom_boxplot(color="black", fill="gray") +
+  labs(y = "Overall coffee ratings")
+```
+
+```{r, fig.width=6, fig.height=3}
+boxplot <- ggplot(data = coffee_ratings, aes(x = "", y=total_cup_points)) +
+  geom_boxplot(color="black", fill="gray") +
+  labs(y = "Overall coffee ratings") + ylim(57,95) + coord_flip()
+
+histogram <- ggplot(data = coffee_ratings, aes(x = total_cup_points)) +
+  geom_histogram(color="black", fill="gray", bins=30) +
+  labs(x = "Overall coffee ratings") + xlim(57,95) + 
+  geom_vline(xintercept=quantile(coffee_ratings$total_cup_points, c(0.25, 0.75), na.rm=TRUE), color="red", lty=2)
+
+# install.packages("egg", dependencies = TRUE)
+library(egg)
+egg::ggarrange(histogram, boxplot, heights = 2:1)
+```
+
+```{r, include=TRUE, fig.width=2.5, fig.height=3}
+# Boxplot of total_cup_points by species
+ggplot(data = coffee_ratings, aes(x = species, y=total_cup_points)) +
+  geom_boxplot(color="black", fill="gray") +
+  labs(y = "Overall coffee ratings",
+       x = "Species of coffee bean")
+```
+
+
